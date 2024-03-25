@@ -61,7 +61,7 @@
     <!-- available options: None|$MA|$MAU|$MAC|$SN -->
     <Debug_Level ua="na">NOTICE</Debug_Level>
     <!-- available options: EMERGENCY|ALERT|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG -->
-    <Primary_NTP_Server ua="rw">10.0.1.12</Primary_NTP_Server>
+    <Primary_NTP_Server ua="rw">10.0.5.9</Primary_NTP_Server>
     <Secondary_NTP_Server ua="rw">time.google.com</Secondary_NTP_Server>
     <Enable_SSLv3 ua="na">No</Enable_SSLv3>
     <Use_Config_TOS ua="na">No</Use_Config_TOS>
@@ -136,8 +136,8 @@
     <Try_Backup_RSC ua="na"/>
     <Retry_Reg_RSC ua="na"/>
     <!-- RTP Parameters -->
-    <RTP_Port_Min ua="na">16384</RTP_Port_Min>
-    <RTP_Port_Max ua="na">16482</RTP_Port_Max>
+    <RTP_Port_Min ua="na">10000</RTP_Port_Min>
+    <RTP_Port_Max ua="na">20000</RTP_Port_Max>
     <RTP_Packet_Size ua="na">0.02</RTP_Packet_Size>
     <Max_RTP_ICMP_Err ua="na">0</Max_RTP_ICMP_Err>
     <RTCP_Tx_Interval ua="na">0</RTCP_Tx_Interval>
@@ -217,7 +217,7 @@
     <!-- Firmware Upgrade -->
     <Upgrade_Enable ua="na">Yes</Upgrade_Enable>
     <Upgrade_Error_Retry_Delay ua="na">3600</Upgrade_Error_Retry_Delay>
-    <Upgrade_Rule ua="na">tftp://10.0.1.12/voip/cmterm-88xx.12-0-3MPP0001-87_REL/sip88xx.12-0-3MPP0001-87.loads</Upgrade_Rule>
+    <Upgrade_Rule ua="na">tftp://10.0.5.9/voip/cmterm-88xx.12-0-4MPP/sip88xx.12-0-4MPP0001-195.loads</Upgrade_Rule>
     <Log_Upgrade_Request_Msg ua="na">
     $PN $MAC -- Requesting upgrade $SCHEME://$SERVIP:$PORT$PATH
     </Log_Upgrade_Request_Msg>
@@ -291,7 +291,7 @@
     <Interdigit_Short_Timer ua="na">3</Interdigit_Short_Timer>
     <!-- Vertical Service Activation Codes -->
     <Call_Return_Code ua="na">*69</Call_Return_Code>
-    <Blind_Transfer_Code ua="na">*95</Blind_Transfer_Code>
+    <Blind_Transfer_Code ua="na">*1</Blind_Transfer_Code>
     <Cfwd_All_Act_Code ua="na">*72</Cfwd_All_Act_Code>
     <Cfwd_All_Deact_Code ua="na">*73</Cfwd_All_Deact_Code>
     <Cfwd_Busy_Act_Code ua="na">*90</Cfwd_Busy_Act_Code>
@@ -316,7 +316,7 @@
     <Secure_One_Call_Deact_Code ua="na">*19</Secure_One_Call_Deact_Code>
     <Paging_Code ua="na">*96</Paging_Code>
     <Call_Park_Code ua="na">*68</Call_Park_Code>
-    <Call_Pickup_Code ua="na">*07</Call_Pickup_Code>
+    <Call_Pickup_Code ua="na">*97</Call_Pickup_Code>
     <Call_Unpark_Code ua="na">*88</Call_Unpark_Code>
     <Group_Call_Pickup_Code ua="na">**</Group_Call_Pickup_Code>
     <Referral_Services_Codes ua="na"/>
@@ -354,7 +354,7 @@
     </Daylight_Saving_Time_Rule>
     <Daylight_Saving_Time_Enable ua="na">{{ $daylightSavings['enable'] ?? 'No' }}</Daylight_Saving_Time_Enable>
     <!-- Language -->
-    <Dictionary_Server_Script ua="na">serv=tftp://10.0.1.12/voip;d1=Korean;x1=ko-KR_88xx-12.0.3.0001.xml;f1=ko-KR_88xx-12.0.3.0001.ttf;</Dictionary_Server_Script>
+    <Dictionary_Server_Script ua="na">serv=tftp://10.0.5.9/voip;d1=Korean;x1=ko-KR_88xx-12.0.4.0002.xml;f1=ko-KR_88xx-12.0.4.0002.ttf;</Dictionary_Server_Script>
     <Language_Selection ua="na">{{ explode('|', $language)[0] }}</Language_Selection>
     <Locale ua="na">{{ explode('|', $language)[1] }}</Locale>
     <!--
@@ -483,12 +483,12 @@
     </Idle_Key_List>
     <Missed_Call_Key_List ua="na">lcr|1;miss|4;</Missed_Call_Key_List>
     <Off_Hook_Key_List ua="na">
-    option;redial;cancel;dir;cfwd;dnd;lcr;unpark;pickup;gpickup;
+    option;redial;gpickup;dir;cfwd;dnd;lcr;unpark;cancel;pickup;
     </Off_Hook_Key_List>
     <Dialing_Input_Key_List ua="na">option|1;call|2;delchar|3;cancel|4;</Dialing_Input_Key_List>
     <Progressing_Key_List ua="na">endcall|2;</Progressing_Key_List>
     <Connected_Key_List ua="na">
-    hold|1;endcall|2;conf|3;xfer|4;showvideo;bxfer;confLx;xferLx;park;phold;crdstart;crdpause;crdresume;crdstop;dnd;
+    endcall|2;bxfer|3;hold|4;
     </Connected_Key_List>
     <Start-Xfer_Key_List ua="na">hold|1;endcall|2;xfer|3;dnd;</Start-Xfer_Key_List>
     <Start-Conf_Key_List ua="na">hold|1;endcall|2;conf|3;dnd;</Start-Conf_Key_List>
@@ -615,7 +615,7 @@
             <Auto_Register_When_Failover_{{ $loop->iteration }}_ ua="na">No</Auto_Register_When_Failover_{{ $loop->iteration }}_>
             <TLS_Name_Validate_{{ $loop->iteration }}_ ua="na">Yes</TLS_Name_Validate_{{ $loop->iteration }}_>
             <!-- Subscriber Information -->
-            <Display_Name_{{ $loop->iteration }}_ ua="na">{{ $accounts[$key['line']]['device_name'] ?? null }}</Display_Name_{{ $loop->iteration }}_>
+            <Display_Name_{{ $loop->iteration }}_ ua="na">{{ $accounts[$key['line']]['description'] ?? null }}</Display_Name_{{ $loop->iteration }}_>
             <User_ID_{{ $loop->iteration }}_ ua="na">{{ $accounts[$key['line']]['device_name'] ?? null }}</User_ID_{{ $loop->iteration }}_>
             <Password_{{ $loop->iteration }}_ ua="na">{{ $accounts[$key['line']]['secret'] ?? null }}</Password_{{ $loop->iteration }}_>
             <Auth_ID_{{ $loop->iteration }}_ ua="na">{{ $accounts[$key['line']]['device_name'] ?? null }}</Auth_ID_{{ $loop->iteration }}_>
@@ -632,12 +632,12 @@
             <DND_Enable_{{ $loop->iteration }}_ ua="na">No</DND_Enable_{{ $loop->iteration }}_>
             <CFWD_Enable_{{ $loop->iteration }}_ ua="na">No</CFWD_Enable_{{ $loop->iteration }}_>
             <!-- Audio Configuration -->
-            <Preferred_Codec_{{ $loop->iteration }}_ ua="na">G711a</Preferred_Codec_{{ $loop->iteration }}_>
+            <Preferred_Codec_{{ $loop->iteration }}_ ua="na">G711u</Preferred_Codec_{{ $loop->iteration }}_>
             <!-- available options: G711u|G711a|G729a|G722|G722.2|iLBC|OPUS -->
-            <Use_Pref_Codec_Only_{{ $loop->iteration }}_ ua="na">No</Use_Pref_Codec_Only_{{ $loop->iteration }}_>
-            <Second_Preferred_Codec_{{ $loop->iteration }}_ ua="na">G711u</Second_Preferred_Codec_{{ $loop->iteration }}_>
+            <Use_Pref_Codec_Only_{{ $loop->iteration }}_ ua="na">Yes</Use_Pref_Codec_Only_{{ $loop->iteration }}_>
+            <Second_Preferred_Codec_{{ $loop->iteration }}_ ua="na">G711a</Second_Preferred_Codec_{{ $loop->iteration }}_>
             <!-- available options: Unspecified|G711u|G711a|G729a|G722|G722.2|iLBC|OPUS -->
-            <Third_Preferred_Codec_{{ $loop->iteration }}_ ua="na">G729a</Third_Preferred_Codec_{{ $loop->iteration }}_>
+            <Third_Preferred_Codec_{{ $loop->iteration }}_ ua="na">OPUS</Third_Preferred_Codec_{{ $loop->iteration }}_>
             <!-- available options: Unspecified|G711u|G711a|G729a|G722|G722.2|iLBC|OPUS -->
             <G711u_Enable_{{ $loop->iteration }}_ ua="na">Yes</G711u_Enable_{{ $loop->iteration }}_>
             <G711a_Enable_{{ $loop->iteration }}_ ua="na">Yes</G711a_Enable_{{ $loop->iteration }}_>
@@ -670,15 +670,14 @@
             <Line_Enable_{{ $loop->iteration }}_ ua="na">No</Line_Enable_{{ $loop->iteration }}_>
             <Extension_{{ $loop->iteration }}_ ua="na">Disabled</Extension_{{ $loop->iteration }}_>
             <Extended_Function_{{ $loop->iteration }}_ ua="na">
-                fnc=sd;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
+                fnc=blf+sd+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
             </Extended_Function_{{ $loop->iteration }}_>
-
         @elseif ($key['type'] === '3')
 
             <Line_Enable_{{ $loop->iteration }}_ ua="na">No</Line_Enable_{{ $loop->iteration }}_>
             <Extension_{{ $loop->iteration }}_ ua="na">Disabled</Extension_{{ $loop->iteration }}_>
             <Extended_Function_{{ $loop->iteration }}_ ua="na">
-                fnc=blf;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
+                fnc=blf+sd+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
             </Extended_Function_{{ $loop->iteration }}_>
 
         @elseif ($key['type'] === '4')
@@ -686,7 +685,7 @@
             <Line_Enable_{{ $loop->iteration }}_ ua="na">No</Line_Enable_{{ $loop->iteration }}_>
             <Extension_{{ $loop->iteration }}_ ua="na">Disabled</Extension_{{ $loop->iteration }}_>
             <Extended_Function_{{ $loop->iteration }}_ ua="na">
-                fnc=blf+sd;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
+                fnc=blf+sd+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
             </Extended_Function_{{ $loop->iteration }}_>
 
         @elseif ($key['type'] === '5')
@@ -702,7 +701,7 @@
             <Line_Enable_{{ $loop->iteration }}_ ua="na">No</Line_Enable_{{ $loop->iteration }}_>
             <Extension_{{ $loop->iteration }}_ ua="na">Disabled</Extension_{{ $loop->iteration }}_>
             <Extended_Function_{{ $loop->iteration }}_ ua="na">
-                fnc=blf+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
+                fnc=blf+sd+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
             </Extended_Function_{{ $loop->iteration }}_>
 
         @elseif ($key['type'] === '7')
@@ -710,7 +709,7 @@
             <Line_Enable_{{ $loop->iteration }}_ ua="na">No</Line_Enable_{{ $loop->iteration }}_>
             <Extension_{{ $loop->iteration }}_ ua="na">Disabled</Extension_{{ $loop->iteration }}_>
             <Extended_Function_{{ $loop->iteration }}_ ua="na">
-                fnc=prk;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
+                fnc=blf+sd+cp;sub={{ $key['value'] ?? null }}@$PROXY;usr={{ $key['value'] ?? null }}@$PROXY;nme={{ $key['label'] ?? null }}
             </Extended_Function_{{ $loop->iteration }}_>
 
         @endif
@@ -758,7 +757,7 @@
     <Date_Format ua="na">{{ $dateFormat ?? 'month/day' }}</Date_Format>
     <!--  available options: month/day|day/month  -->
     <Miss_Call_Shortcut ua="na">No</Miss_Call_Shortcut>
-    <Handset_LED_Alert ua="rw">Voicemail</Handset_LED_Alert>
+    <Handset_LED_Alert ua="rw">Voicemail, Missed Call</Handset_LED_Alert>
     <!--
     available options: Voicemail|Voicemail, Missed Call 
     -->
@@ -779,11 +778,11 @@
     <!--  Camera Profile 3  -->
     <!--  Camera Profile 4  -->
     <!--  Audio Volume  -->
-    <Ringer_Volume ua="rw">8</Ringer_Volume>
-    <Speaker_Volume ua="rw">11</Speaker_Volume>
-    <Handset_Volume ua="rw">9</Handset_Volume>
-    <Headset_Volume ua="rw">9</Headset_Volume>
-    <Bluetooth_Volume ua="rw">9</Bluetooth_Volume>
+    <!--  <Ringer_Volume ua="rw">8</Ringer_Volume>  -->
+    <!--  <Speaker_Volume ua="rw">11</Speaker_Volume>  -->
+    <!--  <Handset_Volume ua="rw">9</Handset_Volume>  -->
+    <!--  <Headset_Volume ua="rw">9</Headset_Volume>  -->
+    <!--  <Bluetooth_Volume ua="rw">9</Bluetooth_Volume>  -->
     <Ehook_Enable ua="na">No</Ehook_Enable>
     <!--  Acoustic Setting  -->
     <Tune_speaker ua="rw">Default</Tune_speaker>
@@ -824,8 +823,8 @@
     <Text_Logo ua="na"/>
     <Phone_Background ua="rw">Logo</Phone_Background>
     <!-- available options: Default|Logo -->
-    <Picture_Download_URL ua="rw">tftp://10.0.1.12/voip/800480.png</Picture_Download_URL>
-    <Logo_URL ua="rw">tftp://10.0.1.12/voip/139109.png</Logo_URL>
+    <Picture_Download_URL ua="rw">tftp://10.0.5.9/voip/800480.png</Picture_Download_URL>
+    <Logo_URL ua="rw">tftp://10.0.5.9/voip/139109.png</Logo_URL>
     <!-- Video Configuration -->
     <!--  General  -->
     <Subscribe_Expires ua="na">1800</Subscribe_Expires>
@@ -833,7 +832,7 @@
     <Number_of_Units ua="na">2</Number_of_Units>
     <!--  available options: 0|1|2|3  -->
     <Subscribe_Delay ua="na">1</Subscribe_Delay>
-    <Server_Type ua="na">Broadsoft</Server_Type>
+    <Server_Type ua="na">Asterisk</Server_Type>
     <!--
     available options: Broadsoft|SPA9000|Asterisk|RFC3265_4235|Sylantro 
     -->
